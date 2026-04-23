@@ -1,29 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { products } from "../lib/mockData";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("Start seeding...");
 
-  // Clear existing products
-  await prisma.product.deleteMany();
-
-  for (const p of products) {
-    await prisma.product.create({
-      data: {
-        title: p.name,
-        description: p.description,
-        price: p.price,
-        originalPrice: p.originalPrice,
-        images: p.gallery,
-        category: p.category,
-        stock: p.stock,
-        isNew: p.isNew || false,
-        isTrending: p.isTrending || false,
-      },
-    });
-  }
+  // Seed script currently disabled as mock data was removed.
+  // Add new seeding logic here if needed in the future.
 
   console.log("Seeding finished.");
 }

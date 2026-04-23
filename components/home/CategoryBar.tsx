@@ -31,22 +31,16 @@ export default function CategoryBar() {
               className="flex flex-col items-center group cursor-pointer"
             >
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mb-4 group-hover:shadow-xl group-hover:shadow-orange-100 group-hover:border-orange-200 transition-all group-hover:-translate-y-2 relative overflow-hidden">
-                {category.isDeals ? (
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center animate-pulse">
-                    <span className="text-red-500 font-black text-2xl">%</span>
-                  </div>
-                ) : (
-                  <div className="relative w-12 h-12">
-                    <Image
-                      src={category.icon!}
-                      alt={category.name}
-                      fill
-                      className="object-contain mix-blend-multiply transition-transform group-hover:scale-110 duration-500"
-                    />
-                  </div>
-                )}
+                <div className="relative w-12 h-12">
+                  <Image
+                    src={category.icon}
+                    alt={category.name}
+                    fill
+                    className="object-contain mix-blend-multiply transition-transform group-hover:scale-110 duration-500"
+                  />
+                </div>
               </div>
-              <span className={`font-bold text-sm tracking-tight ${category.isDeals ? 'text-red-500' : 'text-gray-800'} group-hover:text-orange-500 transition-colors`}>
+              <span className="font-bold text-sm tracking-tight text-gray-800 group-hover:text-orange-500 transition-colors">
                 {category.name}
               </span>
             </Link>
