@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Gadgetion — Modern E-commerce Platform
 
-## Getting Started
+**Gadgetion** is a high-performance, modern e-commerce web application built using the latest web technologies. It is designed to be blazing fast, SEO-friendly, and provides a seamless shopping experience for customers looking for everyday smart gadgets.
 
-First, run the development server:
+![Gadgetion E-commerce](https://via.placeholder.com/1200x600.png?text=Gadgetion+E-Commerce+Platform)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Server Components)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database**: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand) (Persistent Shopping Cart)
+- **Image Hosting**: [UploadThing](https://uploadthing.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+---
+
+## ✨ Key Features
+
+### 🛍️ Customer Experience
+- **Dynamic Product Filtering**: URL-based reactive filtering and search.
+- **Cart Management**: Persistent shopping cart powered by Zustand (`localStorage`).
+- **Seamless Checkout**: Support for Cash on Delivery (COD) and direct WhatsApp ordering.
+- **Responsive Design**: Mobile-first UI using modern layout patterns.
+
+### 🛡️ Admin & Store Management
+- **Secure Admin Dashboard**: Route-protected (`/admin`) using Next.js Middleware and secure HTTP-only cookies.
+- **Order Management**: View, filter, and manage customer orders dynamically.
+- **Product Management**: Add, edit, and delete products with real-time image uploads via UploadThing.
+
+---
+
+## 🛠️ Project Architecture
+
+```text
+├── app/
+│   ├── (storefront)/         # Public user-facing pages (Home, Products, Checkout)
+│   ├── admin/                # Secure admin panel
+│   ├── api/                  # Next.js API Routes (Prisma interactions)
+│   ├── layout.tsx            # Root layout & providers
+│   └── page.tsx              # Homepage
+├── components/
+│   ├── layout/               # Navbar, Footer
+│   ├── home/                 # Hero, CategoryBar, ProductSections
+│   └── shared/               # ProductCard, Skeletons, Modals
+├── lib/
+│   └── prisma.ts             # Prisma client singleton
+├── prisma/
+│   └── schema.prisma         # Database schema
+└── store/
+    └── useCart.ts            # Zustand cart store
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Local Development Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Clone the repository
+```bash
+git clone https://github.com/your-username/gadgetion-store.git
+cd gadgetion-store
+```
 
-## Learn More
+### 2. Install dependencies
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory and add the following keys:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+# MongoDB Connection String
+DATABASE_URL="mongodb+srv://<username>:<password>@cluster.mongodb.net/gadgetion"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# UploadThing API Keys
+UPLOADTHING_SECRET="sk_live_..."
+UPLOADTHING_APP_ID="app_..."
 
-## Deploy on Vercel
+# Admin Credentials
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="secure_password_here"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. Setup Prisma DB
+Push the Prisma schema to your MongoDB database:
+```bash
+npx prisma db push
+npx prisma generate
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 5. Run the Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+---
+
+## 🔐 Security & Hardening
+
+1. **Environment Variables**: Sensitive credentials (Admin login, DB URLs) are stored securely in `.env` and never exposed to the client.
+2. **Middleware Protection**: The `/admin/*` routes are protected using Next.js edge middleware. Unauthenticated users are strictly redirected to `/admin/login`.
+3. **Hydration Conflict Avoidance**: Browser extension conflicts are bypassed in development to ensure a smooth debugging experience.
+
+---
+
+## 📱 WhatsApp Integration Workflow
+Gadgetion heavily utilizes WhatsApp to simplify the ordering process for customers in specific regions (like Pakistan).
+- When a customer clicks **"Order via WhatsApp"** during checkout, the app instantly generates a structured, pre-filled message detailing their cart contents, totals, and shipping details.
+- This creates an immediate, high-conversion communication channel directly between the customer and the store owner.
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License.
