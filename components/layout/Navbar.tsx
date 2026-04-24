@@ -39,10 +39,10 @@ export default function Navbar() {
 
       {/* Top Navbar */}
       <div className="container mx-auto px-4">
-        <div className="h-16 flex items-center justify-between gap-12 overflow-visible">
+        <div className="h-16 flex items-center justify-between md:gap-12 overflow-visible">
 
           {/* Logo */}
-          <Link href="/" className="shrink-0 flex items-center py-1">
+          <Link href="/" className="shrink-0 flex items-center py-1 relative z-[60]">
             <Image
               src="/logo.png"
               alt="Gadgetion Logo"
