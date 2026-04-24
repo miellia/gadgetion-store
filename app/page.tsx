@@ -22,8 +22,8 @@ async function getProducts() {
 export default async function Home() {
   const products = await getProducts();
 
-  const newArrivals = products.filter(p => p.isNew);
-  const trendingNow = products.filter(p => p.isTrending);
+  const newArrivals = products.filter(p => p.isNew).slice(0, 3);
+  const trendingNow = products.filter(p => p.isTrending).slice(0, 3);
 
   return (
     <>
