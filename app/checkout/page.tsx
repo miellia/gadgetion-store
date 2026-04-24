@@ -17,12 +17,13 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart();
   const [mounted, setMounted] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -115,7 +116,7 @@ export default function CheckoutPage() {
         const whatsappUrl = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodedMessage}`;
         window.open(whatsappUrl, "_blank");
         clearCart();
-        setIsSuccess(true);
+        router.push(`/order-success?id=${order.id}`);
       } else {
         alert("Something went wrong while saving your order. Please try again.");
       }
@@ -130,8 +131,8 @@ export default function CheckoutPage() {
 
       if (order) {
         setIsSubmitting(false);
-        setIsSuccess(true);
         clearCart();
+        router.push(`/order-success?id=${order.id}`);
       } else {
         setIsSubmitting(false);
         alert("Something went wrong while saving your order. Please try again.");
@@ -152,31 +153,7 @@ export default function CheckoutPage() {
     }
   };
 
-  if (isSuccess) {
-    return (
-      <div className="min-h-screen bg-white flex flex-col">
-        <Navbar />
-        <main className="flex-1 container mx-auto px-4 py-20 flex items-center justify-center">
-          <div className="bg-white p-8 md:p-12 rounded-3xl border border-gray-100 shadow-xl text-center max-w-lg w-full">
-            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="text-green-500" size={40} />
-            </div>
-            <h1 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Order Placed!</h1>
-            <p className="text-gray-500 mb-8 text-lg">
-              Your order has been received successfully. We will contact you shortly to confirm your booking.
-            </p>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 bg-gray-900 text-white px-10 py-4 rounded-2xl font-bold hover:bg-black transition-all active:scale-95 text-lg"
-            >
-              Back to Store
-            </Link>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+
 
   if (items.length === 0) {
     return (

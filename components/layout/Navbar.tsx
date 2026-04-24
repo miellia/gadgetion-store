@@ -12,12 +12,20 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
+  const [isBumping, setIsBumping] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const cartCount = mounted ? getItemCount() : 0;
+
+  useEffect(() => {
+    if (cartCount === 0) return;
+    setIsBumping(true);
+    const timer = setTimeout(() => setIsBumping(false), 300);
+    return () => clearTimeout(timer);
+  }, [cartCount]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,11 +84,11 @@ export default function Navbar() {
               <span>Account</span>
             </Link>
 
-            <Link href="/cart" className="flex items-center gap-2 text-gray-700 hover:text-orange-500 transition-colors font-medium">
+            <Link href="/cart" className={`flex items-center gap-2 text-gray-700 hover:text-orange-500 transition-all font-medium ${isBumping ? 'scale-110' : 'scale-100'}`}>
               <div className="relative">
-                <ShoppingCart size={24} />
+                <ShoppingCart size={24} className={`${isBumping ? 'text-orange-500' : 'text-gray-700'}`} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
+                  <span className={`absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm transition-transform ${isBumping ? 'scale-125' : 'scale-100'}`}>
                     {cartCount}
                   </span>
                 )}

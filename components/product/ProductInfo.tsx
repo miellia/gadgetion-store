@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, ShoppingCart, Flame } from "lucide-react";
+import { CheckCircle2, ShoppingCart, Flame, Check } from "lucide-react";
 import { useCart } from "@/store/useCart";
+import toast from "react-hot-toast";
 
 interface ProductInfoProps {
   product: {
@@ -21,21 +22,28 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
   const { addItem, updateQuantity, items } = useCart();
 
   const existingItem = items.find(item => item.id === product.id);
 
   const handleAddToCart = () => {
+    setIsAdded(true);
+    
     if (existingItem) {
       updateQuantity(product.id, existingItem.quantity + quantity);
     } else {
-      // Small adjustment to store to support bulk add if needed, 
-      // but for now we just call addItem and then update quantity if > 1
       addItem(product);
       if (quantity > 1) {
         updateQuantity(product.id, quantity);
       }
     }
+
+    toast.success(`${product.title} added to cart!`);
+
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
   };
 
   return (
@@ -98,9 +106,22 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
         <button 
           onClick={handleAddToCart}
-          className="w-full sm:flex-1 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-sm text-lg"
+          disabled={isAdded}
+          className={`w-full sm:flex-1 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-sm text-lg ${
+            isAdded 
+              ? 'bg-green-500 text-white cursor-default scale-95' 
+              : 'bg-orange-500 hover:bg-orange-600 text-white active:scale-95'
+          }`}
         >
-          <ShoppingCart size={20} /> Add to Cart
+          {isAdded ? (
+            <>
+              <Check size={20} /> Added ✓
+            </>
+          ) : (
+            <>
+              <ShoppingCart size={20} /> Add to Cart
+            </>
+          )}
         </button>
         <button className="w-full sm:flex-1 bg-green-100 hover:bg-green-200 text-green-700 py-4 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 text-lg">
           Buy on WhatsApp

@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Check } from "lucide-react";
 import { useCart } from "@/store/useCart";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface ProductCardProps {
   product: {
@@ -21,7 +23,19 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
   const displayImage = product.images?.[0] || "https://images.unsplash.com/photo-1560393464-5c69a73c5770?q=80&w=500&auto=format&fit=crop";
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsAdded(true);
+    addItem(product);
+    toast.success(`${product.title} added!`);
+    
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
+  };
 
   return (
     <div className="group bg-white rounded-lg border border-gray-100 p-3 hover:border-orange-200 transition-all duration-300 flex flex-col h-full relative">
@@ -72,10 +86,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
 
           <button 
-            onClick={() => addItem(product)}
-            className="text-gray-400 hover:text-orange-500 transition-all active:scale-90"
+            onClick={handleAddToCart}
+            disabled={isAdded}
+            className={`transition-all active:scale-90 ${
+              isAdded ? 'text-green-500 scale-110' : 'text-gray-400 hover:text-orange-500'
+            }`}
           >
-            <ShoppingCart size={16} />
+            {isAdded ? <Check size={18} /> : <ShoppingCart size={16} />}
           </button>
         </div>
       </div>
