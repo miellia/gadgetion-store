@@ -63,7 +63,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group bg-white rounded-[2rem] border border-gray-100 p-4 hover:border-orange-200 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
+    <div className="group bg-white rounded-[2rem] border border-orange-100 p-4 shadow-[0_0_40px_rgba(249,115,22,0.12)] hover:border-orange-200 hover:-translate-y-2 hover:shadow-[0_0_50px_rgba(249,115,22,0.25)] transition-all duration-500 flex flex-col h-full relative overflow-hidden">
       
       {/* 1. IMAGE SECTION */}
       <div className="relative aspect-square rounded-[1.5rem] bg-gray-50 mb-5 overflow-hidden flex items-center justify-center p-4 shadow-inner">
